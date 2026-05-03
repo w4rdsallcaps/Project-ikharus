@@ -1,0 +1,11 @@
+BUG REPORT DOCUMENTATION
+{   5/1/2026 [8:58 PM] log Noval: 
+        -sign up problem, signup page doesnt go to the dashboard -> it goes to random page called sso -> will have to fix another time am sleep
+        - theme doesnt stick to all other pages -> need to make class for changing themes -> connect all pages to it
+        - other main pages still not created they are listed as the following 
+            .dashboard
+            .project page (editor)
+            .client view page (client) as well as creating tokens
+            .trello_like page
+            .settings/profile page 
+            }
