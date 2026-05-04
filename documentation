@@ -9,3 +9,8 @@ BUG REPORT DOCUMENTATION
             .trello_like page
             .settings/profile page 
             }
+
+{   5/4/2026 [7:51 PM] log Demape: 
+        - still has sign up problems
+        - better to modularize the components found in dashbaord/auth/page.js
+            }
