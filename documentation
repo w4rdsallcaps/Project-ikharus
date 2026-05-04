@@ -14,3 +14,7 @@ BUG REPORT DOCUMENTATION
         - still has sign up problems
         - better to modularize the components found in dashbaord/auth/page.js
             }
+
+{   5/4/2026 [ 8:32] Log Noval:
+    - after loging in it goes to sso-callback for somereason 
+}
