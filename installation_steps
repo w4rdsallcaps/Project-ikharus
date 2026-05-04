@@ -8,7 +8,8 @@ Step 2: Go Into the Project Folder
 
 Step 3: Install Dependencies
     This installs all the packages the project needs (replaces the node_modules folder that wasn't pushed to GitHub [the files were too large so just install it again]):
-    bashnpm install
+    in bash do 
+     npm install
 
 Step 4: Create the .env.local File
     The .env.local file wasnt pushed to GitHub because it contains secret keys. 
@@ -23,6 +24,11 @@ Step 4: Create the .env.local File
     NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
     NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/dashboard
     NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/dashboard
+
+    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME = " dgitmafa"
+
+Step 5: install cloudinary libraries 
+    npm install next-cloudinary
 
 Step 5: Run the Project
     bashnpm run dev
