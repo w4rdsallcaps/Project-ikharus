@@ -3,7 +3,6 @@ import { useState } from "react";
 import { CldUploadWidget } from "next-cloudinary";
 
 
-/** Convert total seconds → "Xm Ys" display string */
 function fmtDuration(totalSeconds) {
   const m = Math.floor(totalSeconds / 60);
   const s = totalSeconds % 60;
