@@ -1,4 +1,12 @@
 BUG REPORT DOCUMENTATION
+{   5/1/2026 [5:46 PM] log Dela Cruz:
+        - Received Workspace Root Warning when setting up firebase for the Authentication database
+        - Next.js (Turbopack) detected multiple package-lock.json files (one in the root and one in media_flow).
+        - Need to remove redundant lockfile in the sub-directory (media_flow > public).
+        - Migrated authentication from Firebase to Clerk API (Setup by Noval).
+        - This transition is more feasible for our schedule as Clerk provides a unified database and front-end solution.
+            }
+
 {   5/1/2026 [8:58 PM] log Noval: 
         -sign up problem, signup page doesnt go to the dashboard -> it goes to random page called sso -> will have to fix another time am sleep
         - theme doesnt stick to all other pages -> need to make class for changing themes -> connect all pages to it
