@@ -170,21 +170,32 @@ export default function EditorView({
           <button
             onClick={toggleDarkMode}
             style={{
-              background: "none",
-              border: "none",
-              color: "var(--color-text-secondary)",
-              cursor: "pointer",
-              padding: "0.5rem",
               display: "flex",
               alignItems: "center",
-              justifyContent: "center",
-              transition: "color 0.2s ease",
+              gap: "6px",
+              padding: "6px 12px",
+              borderRadius: "var(--radius-full)",
+              background: "var(--color-bg-surface-alt)",
+              border: "1px solid var(--color-border-default)",
+              color: "var(--color-text-secondary)",
+              cursor: "pointer",
+              fontSize: "var(--text-xs)",
+              fontWeight: "var(--font-medium)",
+              transition: "all var(--transition-fast)",
+              letterSpacing: "0.01em",
             }}
-            onMouseEnter={(e) => e.currentTarget.style.color = "var(--color-primary)"}
-            onMouseLeave={(e) => e.currentTarget.style.color = "var(--color-text-secondary)"}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = "var(--color-primary)";
+              e.currentTarget.style.color = "var(--color-primary)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = "var(--color-border-default)";
+              e.currentTarget.style.color = "var(--color-text-secondary)";
+            }}
             aria-label="Toggle theme"
           >
             {darkMode ? <SunIcon /> : <MoonIcon />}
+            <span>{darkMode ? "Light" : "Dark"}</span>
           </button>
 
           <div style={{ display: "flex", alignItems: "center" }}>

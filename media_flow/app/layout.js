@@ -1,22 +1,34 @@
-import { ClerkProvider, UserButton } from '@clerk/nextjs'
+import { ClerkProvider } from '@clerk/nextjs'
+import ThemeProvider from './theme-provider'
 import './globals.css'
+
+export const metadata = {
+  title: 'MediaFlow',
+  description: 'Media project management for editors',
+}
 
 export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="en" suppressHydrationWarning>
+        <head>
+          {/* Prevent flash of wrong theme on load */}
+          <script dangerouslySetInnerHTML={{ __html: `
+            (function() {
+              try {
+                var saved = localStorage.getItem('theme');
+                var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (saved === 'dark' || (!saved && prefersDark)) {
+                  document.documentElement.classList.add('dark');
+                }
+              } catch(e) {}
+            })();
+          `}} />
+        </head>
         <body>
-          <header style={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            alignItems: 'center',
-            padding: '1rem',
-            gap: '1rem',
-            height: '64px'
-          }}>
-            <UserButton />
-          </header>
-          {children}
+          <ThemeProvider>
+            {children}
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>
