@@ -10,40 +10,39 @@
       Reference these everywhere — never hardcode raw values.
    ------------------------------------------------------------ */
 :root {
-  /* --- Color Palette --- */
+  /* --- Color Palette (Clean Minimalism - Light) --- */
 
-  /* Brand / Primary — the teal-blue used on progress rings,
-     the active video scrubber, and icon accents               */
-  --color-primary:        #2D9CDB;
-  --color-primary-light:  #56CCF2;
-  --color-primary-dark:   #1A7BB8;
-  --color-primary-glow:   rgba(45, 156, 219, 0.15); /* used for the video canvas glow */
+  /* Primary Accent — Apple-inspired Blue */
+  --color-primary:        #007AFF;
+  --color-primary-light:  #47A1FF;
+  --color-primary-dark:   #0056B3;
+  --color-primary-glow:   rgba(0, 122, 255, 0.1);
 
-  /* Neutrals — page background is almost white, not pure white */
-  --color-bg-page:        #F0F4F8; /* lightest outer shell           */
-  --color-bg-surface:     #FFFFFF; /* cards, modals, panels          */
-  --color-bg-surface-alt: #F7FAFC; /* subtle inner sections          */
-  --color-bg-overlay:     rgba(255, 255, 255, 0.85); /* frosted badge bg */
+  /* Neutrals — Creamy Whites */
+  --color-bg-page:        #FAF9F6; /* Creamy off-white background */
+  --color-bg-surface:     #FFFFFF; /* Pure white surface */
+  --color-bg-surface-alt: #F2F1EB; /* Subtle cream contrast */
+  --color-bg-overlay:     rgba(0, 0, 0, 0.4);
 
-  /* Text */
-  --color-text-primary:   #1A202C; /* headings, project names        */
-  --color-text-secondary: #4A5568; /* sub-labels, client names       */
-  --color-text-muted:     #A0AEC0; /* timestamps, hints              */
-  --color-text-on-primary:#FFFFFF; /* text on --color-primary fills  */
+  /* Text Colors */
+  --color-text-primary:   #1D1D1F; /* Almost black for depth */
+  --color-text-secondary: #86868B; /* Soft grey for labels */
+  --color-text-muted:     #A1A1A6; /* Subtle info text */
+  --color-text-on-primary:#FFFFFF;
 
-  /* Borders */
-  --color-border-default: #E2E8F0; /* card outlines, dividers        */
-  --color-border-focus:   #2D9CDB; /* focused inputs                 */
+  /* Borders and Dividers */
+  --color-border-default: #D2D2D7;
+  --color-border-focus:   #007AFF;
 
-  /* Status badges (match the Unresolved / Needs Action / Delivered pills) */
-  --color-status-unresolved-bg:   #FFF3CD;
-  --color-status-unresolved-text: #92620A;
-  --color-status-needs-action-bg: #FEE2E2;
-  --color-status-needs-action-text: #9B1C1C;
-  --color-status-delivered-bg:    #D1FAE5;
-  --color-status-delivered-text:  #065F46;
-  --color-status-draft-bg:        #E0F2FE;
-  --color-status-draft-text:      #075985;
+  /* Status Colors (Subtle Pills) */
+  --color-status-unresolved-bg:   #FFF4E6;
+  --color-status-unresolved-text: #B25E09;
+  --color-status-needs-action-bg: #FFEBEB;
+  --color-status-needs-action-text: #C53030;
+  --color-status-delivered-bg:    #EBFBEE;
+  --color-status-delivered-text:  #2F855A;
+  --color-status-draft-bg:        #E7F5FF;
+  --color-status-draft-text:      #1971C2;
 
   /* --- Typography --- */
   --font-sans:   'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
@@ -84,16 +83,16 @@
   --radius-xl:   16px;  /* main content panels               */
   --radius-full: 9999px;/* circular progress rings, FAB btn  */
 
-  /* --- Shadows (very subtle — UI is light, not deep) --- */
+  /* --- Shadows (Refined Apple style — subtle and intentional) --- */
   --shadow-xs:  0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-sm:  0 1px 4px rgba(0, 0, 0, 0.08);
-  --shadow-md:  0 4px 12px rgba(0, 0, 0, 0.08);
-  --shadow-lg:  0 8px 24px rgba(0, 0, 0, 0.10);
+  --shadow-sm:  0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md:  0 10px 30px rgba(0, 0, 0, 0.06);
+  --shadow-lg:  0 20px 40px rgba(0, 0, 0, 0.08);
 
   /* --- Layout --- */
-  --header-height:     60px;
-  --sidebar-width:     280px;   /* annotation sidebar on Review page   */
-  --content-max-width: 1200px;
+  --header-height:     72px;
+  --sidebar-width:     320px;
+  --content-max-width: 1240px;
 
   /* --- Transitions --- */
   --transition-fast:   150ms ease;
@@ -106,6 +105,33 @@
   --z-dropdown:100;
   --z-modal:   200;
   --z-toast:   300;
+}
+
+/* --- Dark Mode (Obsidian) --- */
+.dark {
+  --color-bg-page:        #000000; /* Obsidian / Pure Black */
+  --color-bg-surface:     #1D1D1F; /* Dark Gray Surface */
+  --color-bg-surface-alt: #2C2C2E;
+  --color-bg-overlay:     rgba(0, 0, 0, 0.7);
+
+  --color-text-primary:   #F5F5F7;
+  --color-text-secondary: #A1A1A6;
+  --color-text-muted:     #86868B;
+
+  --color-border-default: #3A3A3C;
+  --color-border-focus:   #007AFF;
+
+  --color-primary-glow:   rgba(0, 122, 255, 0.2);
+
+  /* Adjust status colors for dark background if needed */
+  --color-status-unresolved-bg:   #3D2B1F;
+  --color-status-unresolved-text: #FFB347;
+  --color-status-needs-action-bg: #4A1D1D;
+  --color-status-needs-action-text: #FEB2B2;
+  --color-status-delivered-bg:    #1C3326;
+  --color-status-delivered-text:  #9AE6B4;
+  --color-status-draft-bg:        #1A365D;
+  --color-status-draft-text:      #90CDF4;
 }
 
 
@@ -203,7 +229,7 @@ ul, ol {
   flex-direction: column;
 }
 
-/* Top Navigation Bar — white strip with logo + greeting */
+/* Top Navigation Bar — pure white strip with logo + greeting */
 .app-header {
   position: sticky;
   top: 0;
@@ -214,8 +240,8 @@ ul, ol {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 var(--space-6);
-  box-shadow: var(--shadow-xs);
+  padding: 0 var(--space-8);
+  box-shadow: var(--shadow-sm);
 }
 
 .app-header__logo {
@@ -274,13 +300,51 @@ ul, ol {
   box-shadow: var(--shadow-xs);
   transition: box-shadow var(--transition-fast),
               transform   var(--transition-fast);
+  position: relative;
 }
 
-.card-tile:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-1px);
-  cursor: pointer;
+/* Project card actions hover logic */
+.card-tile__actions {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  display: flex;
+  gap: var(--space-2);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  z-index: 20;
 }
+
+.card-tile:hover .card-tile__actions {
+  opacity: 1;
+}
+
+.card-tile__btn {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-full);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
+}
+
+.card-tile__btn:hover {
+  background: var(--color-bg-surface-alt);
+  color: var(--color-text-primary);
+  transform: scale(1.1);
+}
+
+.card-tile__btn--delete:hover {
+  color: #E53E3E;
+  border-color: #FEB2B2;
+}
+
 
 /* Section label inside a card — "ACTIVE PROJECTS", "ANNOTATIONS (5)" */
 .card-section-label {
@@ -318,10 +382,10 @@ ul, ol {
   object-fit: cover;
 }
 
-/* Circular progress ring sits top-right of thumbnail */
+/* Circular progress ring sits bottom-right of thumbnail */
 .project-card__progress {
   position: absolute;
-  top: var(--space-2);
+  bottom: var(--space-2);
   right: var(--space-2);
   width: 44px;
   height: 44px;
@@ -455,6 +519,9 @@ ul, ol {
   bottom: var(--space-8);
   right: var(--space-8);
   z-index: var(--z-raised);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .btn--fab:hover {
   background: var(--color-primary-dark);
@@ -554,12 +621,6 @@ ul, ol {
   background: var(--color-bg-surface-alt);
   border-radius: var(--radius-xl);
   overflow: hidden;
-
-  /* the subtle blue grid/glow background from the mockup */
-  background-image:
-    linear-gradient(rgba(45, 156, 219, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(45, 156, 219, 0.04) 1px, transparent 1px);
-  background-size: 40px 40px;
 }
 
 .video-wrapper__canvas {
@@ -720,7 +781,6 @@ ul, ol {
   align-items: center;
   justify-content: center;
   z-index: var(--z-modal);
-  backdrop-filter: blur(2px);
 }
 
 .modal {

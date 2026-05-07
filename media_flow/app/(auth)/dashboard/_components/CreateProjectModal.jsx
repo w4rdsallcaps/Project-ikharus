@@ -11,22 +11,23 @@ function fmtDuration(totalSeconds) {
 
 /**
  * _components/CreateProjectModal.jsx
- * Modal for creating a new project.
+ * Modal for creating or editing a project.
  * Switches between video and image fields based on projectType toggle.
  */
-export default function CreateProjectModal({ onClose, onCreate }) {
+export default function CreateProjectModal({ onClose, onCreate, initialData }) {
   const [formData, setFormData] = useState({
-    name:            "",
-    client:          "",
-    maxRevisions:    3,
-    projectType:     "video",
-    maxDurationMins: "",
-    maxDurationSecs: "",
+    name:            initialData?.name ?? "",
+    client:          initialData?.client ?? "",
+    maxRevisions:    initialData?.maxRevisions ?? 3,
+    projectType:     initialData?.projectType ?? "video",
+    maxDurationMins: initialData?.maxDurationMins ?? "",
+    maxDurationSecs: initialData?.maxDurationSecs ?? "",
+    deadline:        initialData?.deadline ?? "",
   });
 
   // Task list state for image projects
   const [taskInput, setTaskInput] = useState("");
-  const [tasks, setTasks]         = useState([]);
+  const [tasks, setTasks]         = useState(initialData?.tasks?.map(t => t.label) ?? []);
 
   const field = (key, value) =>
     setFormData((prev) => ({ ...prev, [key]: value }));
@@ -66,7 +67,9 @@ export default function CreateProjectModal({ onClose, onCreate }) {
       aria-labelledby="modal-title"
     >
       <div className="modal" style={{ maxHeight: "90vh", overflowY: "auto" }}>
-        <h2 className="modal__title" id="modal-title">New project</h2>
+        <h2 className="modal__title" id="modal-title">
+          {initialData ? "Edit project" : "New project"}
+        </h2>
 
         <form onSubmit={handleSubmit}>
 
@@ -183,6 +186,20 @@ export default function CreateProjectModal({ onClose, onCreate }) {
             <span className="form-hint">How many revision rounds are included.</span>
           </div>
 
+          {/* ── Deadline Date ── */}
+          <div className="form-group">
+            <label className="form-label" htmlFor="deadline">Deadline date</label>
+            <input
+              id="deadline"
+              className="form-input"
+              type="date"
+              required
+              value={formData.deadline}
+              onChange={(e) => field("deadline", e.target.value)}
+            />
+            <span className="form-hint">When does this project need to be finished?</span>
+          </div>
+
           {/* ── VIDEO: max work duration ── */}
           {isVideo && (
             <div className="form-group">
@@ -228,7 +245,7 @@ export default function CreateProjectModal({ onClose, onCreate }) {
           {/* ── IMAGE: revision checklist tasks ── */}
           {!isVideo && (
             <div className="form-group">
-              <label className="form-label">Checklist</label>
+              <label className="form-label">Requests</label>
               <span className="form-hint" style={{ marginBottom: "var(--space-2)", display: "block" }}>
                 Add tasks the editor must complete before uploading the final image.
               </span>
@@ -283,14 +300,20 @@ export default function CreateProjectModal({ onClose, onCreate }) {
                         onClick={() => handleRemoveTask(i)}
                         style={{
                           color:    "var(--color-text-muted)",
-                          fontSize: "var(--text-lg)",
-                          lineHeight: 1,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
                           cursor:   "pointer",
-                          padding:  "0 var(--space-1)",
+                          padding:  "var(--space-1)",
                         }}
                         aria-label={`Remove task: ${task}`}
                       >
-                        ×
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                          stroke="currentColor" strokeWidth="2"
+                          strokeLinecap="round" strokeLinejoin="round">
+                          <line x1="18" y1="6" x2="6" y2="18" />
+                          <line x1="6" y1="6" x2="18" y2="18" />
+                        </svg>
                       </button>
                     </div>
                   ))}
@@ -312,7 +335,7 @@ export default function CreateProjectModal({ onClose, onCreate }) {
                 cursor:  !canSubmit ? "not-allowed" : "pointer",
               }}
             >
-              Create project
+              {initialData ? "Save changes" : "Create project"}
             </button>
           </div>
 

@@ -1,6 +1,31 @@
 "use client";
 import { useState }  from "react";
-import { useUser }   from "@clerk/nextjs";
+import { useUser, UserButton }   from "@clerk/nextjs";
+import { useTheme } from "../../theme-provider";
+
+function SunIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="5" />
+      <line x1="12" y1="1" x2="12" y2="3" />
+      <line x1="12" y1="21" x2="12" y2="23" />
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+      <line x1="1" y1="12" x2="3" y2="12" />
+      <line x1="21" y1="12" x2="23" y2="12" />
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+    </svg>
+  );
+}
+
+function MoonIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    </svg>
+  );
+}
 
 
 import ProjectCard        from "./_components/ProjectCard";
@@ -19,6 +44,7 @@ function createProject({
   maxDurationMins,
   maxDurationSecs,
   tasks,
+  deadline,
 }) {
   return {
     id:              Date.now(),
@@ -26,6 +52,7 @@ function createProject({
     client,
     maxRevisions,
     projectType,                          // "video" | "image"
+    deadline:        deadline ?? "",      // Added deadline field
 
     // Video fields
     maxDurationMins: maxDurationMins ?? 0,
@@ -54,10 +81,13 @@ function createProject({
 
 export default function DashboardPage() {
   const { user } = useUser();
+  const { darkMode, toggleDarkMode } = useTheme();
   const [view, setView]                       = useState("dashboard");
   const [isModalOpen, setIsModalOpen]         = useState(false);
+  const [projectToEdit, setProjectToEdit]     = useState(null);
   const [selectedProject, setSelectedProject] = useState(null);
   const [projects, setProjects]               = useState([]);
+  const [deadlineFilter, setDeadlineFilter]   = useState(null); // Track selected project for deadline filtering
 
   // Sync a patch to both the array AND the live selectedProject so
   // EditorView always sees the latest state without a remount.
@@ -73,8 +103,37 @@ export default function DashboardPage() {
   // ── Handlers ─────────────────────────────────────────────────────────────
 
   const handleCreate = (formData) => {
-    setProjects((prev) => [...prev, createProject(formData)]);
+    if (projectToEdit) {
+      // If editing, we need to handle the tasks conversion if they are strings (labels)
+      const tasks = Array.isArray(formData.tasks) && typeof formData.tasks[0] === 'string'
+        ? formData.tasks.map((label, i) => ({
+            id:    `task_${Date.now()}_${i}`,
+            label,
+            done:  false,
+          }))
+        : formData.tasks;
+
+      updateProject(projectToEdit.id, { ...formData, tasks });
+    } else {
+      setProjects((prev) => [...prev, createProject(formData)]);
+    }
     setIsModalOpen(false);
+    setProjectToEdit(null);
+  };
+
+  const handleEdit = (project) => {
+    setProjectToEdit(project);
+    setIsModalOpen(true);
+  };
+
+  const handleDelete = (id) => {
+    if (window.confirm("Are you sure you want to delete this project?")) {
+      setProjects((prev) => prev.filter((p) => p.id !== id));
+      if (selectedProject?.id === id) {
+        setSelectedProject(null);
+        setView("dashboard");
+      }
+    }
   };
 
   // Called by WorkLogPanel (video) and RevisionChecklist (image).
@@ -114,6 +173,10 @@ export default function DashboardPage() {
   }
 
   // ── Dashboard view ────────────────────────────────────────────────────────
+  const filteredProjects = deadlineFilter 
+    ? projects.filter(p => p.id === deadlineFilter)
+    : projects;
+
   return (
     <div className="app-shell">
 
@@ -132,15 +195,47 @@ export default function DashboardPage() {
           </span>
         </a>
 
-        <p style={{ fontSize: "var(--text-base)", color: "var(--color-text-secondary)" }}>
-          Hello, {" "}
-          <span style={{
-            fontWeight: "var(--font-semibold)",
-            color:      "var(--color-text-primary)",
-          }}>
-            {user?.firstName ?? "Editor"}!
-          </span>
-        </p>
+        <div style={{ display: "flex", alignItems: "center", gap: "var(--space-6)" }}>
+          <button
+            onClick={toggleDarkMode}
+            style={{
+              background: "none",
+              border: "none",
+              color: "var(--color-text-secondary)",
+              cursor: "pointer",
+              padding: "0.5rem",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              transition: "color 0.2s ease",
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.color = "var(--color-primary)"}
+            onMouseLeave={(e) => e.currentTarget.style.color = "var(--color-text-secondary)"}
+            aria-label="Toggle theme"
+          >
+            {darkMode ? <SunIcon /> : <MoonIcon />}
+          </button>
+
+          <div style={{ display: "flex", alignItems: "center", gap: "var(--space-3)" }}>
+            <p style={{ 
+              fontSize: "var(--text-base)", 
+              color: "var(--color-text-secondary)",
+              margin: 0,
+              lineHeight: 1
+            }}>
+              Hello,{" "}
+              <span style={{
+                fontWeight: "var(--font-semibold)",
+                color:      "var(--color-text-primary)",
+              }}>
+                {user?.firstName ?? "Editor"}!
+              </span>
+            </p>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <UserButton afterSignOutUrl="/" />
+            </div>
+          </div>
+        </div>
       </header>
 
       {/* ── Main ── */}
@@ -164,11 +259,13 @@ export default function DashboardPage() {
                 gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
                 gap:                 "var(--space-5)",
               }}>
-                {projects.map((proj) => (
+                {filteredProjects.map((proj) => (
                   <ProjectCard
                     key={proj.id}
                     project={proj}
                     onClick={() => openProject(proj)}
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
                   />
                 ))}
               </div>
@@ -178,15 +275,48 @@ export default function DashboardPage() {
               className="btn--fab"
               onClick={() => setIsModalOpen(true)}
               aria-label="Create new project"
-              style={{ position: "absolute" }}
+              style={{ 
+                position: "absolute",
+                bottom: "var(--space-8)",
+                right: "var(--space-8)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: 0,
+                lineHeight: 0,
+              }}
             >
-              +
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" strokeWidth="3"
+                strokeLinecap="round" strokeLinejoin="round"
+                style={{ display: "block" }}>
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
             </button>
           </section>
 
           {/* Upcoming Deadlines sidebar */}
           <aside className="card">
-            <p className="card-section-label">Upcoming deadlines</p>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "var(--space-3)" }}>
+              <p className="card-section-label" style={{ margin: 0 }}>Upcoming deadlines</p>
+              {deadlineFilter && (
+                <button 
+                  onClick={() => setDeadlineFilter(null)}
+                  style={{
+                    fontSize: "var(--text-xs)",
+                    color: "var(--color-primary)",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    padding: 0,
+                    fontWeight: "var(--font-semibold)"
+                  }}
+                >
+                  Clear filter
+                </button>
+              )}
+            </div>
 
             {projects.length === 0 ? (
               <p style={{
@@ -199,13 +329,17 @@ export default function DashboardPage() {
               </p>
             ) : (
               <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-3)" }}>
-                {projects.slice(0, 5).map((proj) => (
-                  <DeadlineItem
-                    key={proj.id}
-                    project={proj}
-                    onClick={() => openProject(proj)}
-                  />
-                ))}
+                {[...projects]
+                  .sort((a, b) => (a.deadline || "9999").localeCompare(b.deadline || "9999"))
+                  .slice(0, 8)
+                  .map((proj) => (
+                    <DeadlineItem
+                      key={proj.id}
+                      project={proj}
+                      isActive={deadlineFilter === proj.id}
+                      onClick={() => setDeadlineFilter(proj.id)}
+                    />
+                  ))}
               </div>
             )}
           </aside>
@@ -215,8 +349,12 @@ export default function DashboardPage() {
 
       {isModalOpen && (
         <CreateProjectModal
-          onClose={() => setIsModalOpen(false)}
+          onClose={() => {
+            setIsModalOpen(false);
+            setProjectToEdit(null);
+          }}
           onCreate={handleCreate}
+          initialData={projectToEdit}
         />
       )}
     </div>
