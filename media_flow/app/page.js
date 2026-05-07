@@ -3,9 +3,34 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@clerk/nextjs'
+import { useTheme } from './theme-provider'
+
+function SunIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="5" />
+      <line x1="12" y1="1" x2="12" y2="3" />
+      <line x1="12" y1="21" x2="12" y2="23" />
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+      <line x1="1" y1="12" x2="3" y2="12" />
+      <line x1="21" y1="12" x2="23" y2="12" />
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+    </svg>
+  );
+}
+
+function MoonIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    </svg>
+  );
+}
 
 export default function Home() {
-  const [darkMode, setDarkMode] = useState(false)
+  const { darkMode, toggleDarkMode } = useTheme()
   const [token, setToken] = useState('')
   const router = useRouter()
   const { isSignedIn, isLoaded } = useAuth()
@@ -23,40 +48,34 @@ export default function Home() {
     }
   }
 
-  const theme = {
-    bg: darkMode ? '#0f172a' : '#e8f4fd',
-    panel: darkMode ? '#1e293b' : '#ffffff',
-    text: darkMode ? '#f1f5f9' : '#1e293b',
-    subtext: darkMode ? '#94a3b8' : '#64748b',
-    input: darkMode ? '#0f172a' : '#f1f7fd',
-    inputBorder: darkMode ? '#334155' : '#cbd5e1',
-    accent: '#0ea5e9',
-  }
-
   return (
-    <div style={{
+    <div className="app-shell" style={{
       display: 'flex',
       height: '100vh',
-      backgroundColor: theme.bg,
+      backgroundColor: 'var(--color-bg-page)',
+      color: 'var(--color-text-primary)',
       transition: 'all 0.3s ease',
-      fontFamily: 'sans-serif',
+      fontFamily: 'var(--font-sans)',
+      flexDirection: 'row',
     }}>
 
-      {/* Toggle Button */}
       <button
-        onClick={() => setDarkMode(!darkMode)}
+        onClick={toggleDarkMode}
         style={{
           position: 'absolute',
-          top: '1.5rem',
-          left: '1.5rem',
+          top: '2rem',
+          left: '2rem',
           background: 'none',
           border: 'none',
-          fontSize: '1.5rem',
+          color: 'var(--color-text-secondary)',
           cursor: 'pointer',
           zIndex: 10,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
       >
-        {darkMode ? '🌙' : '☀️'}
+        {darkMode ? <SunIcon /> : <MoonIcon />}
       </button>
 
       {/* Left Side - Branding */}
@@ -70,15 +89,15 @@ export default function Home() {
       }}>
         <h1 style={{
           fontSize: '2.5rem',
-          fontWeight: 'bold',
-          color: theme.text,
+          fontWeight: 'var(--font-bold)',
+          color: 'var(--color-text-primary)',
           marginBottom: '1rem',
         }}>
           Review. Annotate. Flow.
         </h1>
         <p style={{
-          color: theme.subtext,
-          fontSize: '1rem',
+          color: 'var(--color-text-secondary)',
+          fontSize: 'var(--text-base)',
           textAlign: 'center',
           maxWidth: '300px',
         }}>
@@ -89,26 +108,27 @@ export default function Home() {
       {/* Right Side - Login Panel */}
       <div style={{
         width: '460px',
-        backgroundColor: theme.panel,
+        backgroundColor: 'var(--color-bg-surface)',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         padding: '3rem',
         transition: 'all 0.3s ease',
+        borderLeft: '1px solid var(--color-border-default)',
       }}>
 
         {/* Title */}
         <h2 style={{
           fontSize: '1.8rem',
-          fontWeight: 'bold',
-          color: theme.text,
+          fontWeight: 'var(--font-bold)',
+          color: 'var(--color-text-primary)',
           marginBottom: '0.5rem',
         }}>
-          Welcome to <span style={{ color: theme.accent }}>Media</span>Flow
+          Welcome to <span style={{ color: 'var(--color-primary)' }}>Media</span>Flow
         </h2>
         <p style={{
-          color: theme.subtext,
-          fontSize: '0.9rem',
+          color: 'var(--color-text-secondary)',
+          fontSize: 'var(--text-sm)',
           marginBottom: '2rem',
           fontStyle: 'italic',
         }}>
@@ -118,16 +138,12 @@ export default function Home() {
         {/* Login Button */}
         <button
           onClick={() => router.push('/sign-in')}
+          className="btn btn--primary"
           style={{
             width: '100%',
             padding: '0.85rem',
-            backgroundColor: theme.accent,
-            color: '#ffffff',
-            border: 'none',
-            borderRadius: '999px',
-            fontSize: '1rem',
-            fontWeight: '600',
-            cursor: 'pointer',
+            borderRadius: 'var(--radius-full)',
+            fontSize: 'var(--text-base)',
             marginBottom: '1rem',
           }}
         >
@@ -137,16 +153,12 @@ export default function Home() {
         {/* Sign Up Button */}
         <button
           onClick={() => router.push('/sign-up')}
+          className="btn btn--secondary"
           style={{
             width: '100%',
             padding: '0.85rem',
-            backgroundColor: 'transparent',
-            color: theme.text,
-            border: `2px solid ${theme.inputBorder}`,
-            borderRadius: '999px',
-            fontSize: '1rem',
-            fontWeight: '600',
-            cursor: 'pointer',
+            borderRadius: 'var(--radius-full)',
+            fontSize: 'var(--text-base)',
             marginBottom: '2rem',
           }}
         >
@@ -154,12 +166,12 @@ export default function Home() {
         </button>
 
         {/* Divider */}
-        <hr style={{ borderColor: theme.inputBorder, marginBottom: '2rem' }} />
+        <hr style={{ borderColor: 'var(--color-border-default)', marginBottom: '2rem' }} />
 
         {/* Project Token Section */}
         <p style={{
-          color: theme.text,
-          fontWeight: '600',
+          color: 'var(--color-text-primary)',
+          fontWeight: 'var(--font-semibold)',
           marginBottom: '0.75rem',
           textAlign: 'center',
         }}>
@@ -169,16 +181,12 @@ export default function Home() {
         <input
           type="text"
           placeholder="Enter Project Token"
+          className="form-input"
           value={token}
           onChange={(e) => setToken(e.target.value)}
           style={{
             width: '100%',
             padding: '0.85rem',
-            backgroundColor: theme.input,
-            border: `1px solid ${theme.inputBorder}`,
-            borderRadius: '0.5rem',
-            color: theme.text,
-            fontSize: '0.95rem',
             marginBottom: '1rem',
             boxSizing: 'border-box',
           }}
@@ -186,16 +194,14 @@ export default function Home() {
 
         <button
           onClick={handleTokenSubmit}
+          className="btn"
           style={{
             width: '100%',
             padding: '0.85rem',
-            backgroundColor: darkMode ? '#1e3a5f' : '#e2f0fb',
-            color: theme.accent,
-            border: 'none',
-            borderRadius: '999px',
-            fontSize: '1rem',
-            fontWeight: '600',
-            cursor: 'pointer',
+            backgroundColor: 'var(--color-bg-surface-alt)',
+            color: 'var(--color-primary)',
+            borderRadius: 'var(--radius-full)',
+            fontSize: 'var(--text-base)',
           }}
         >
           Continue

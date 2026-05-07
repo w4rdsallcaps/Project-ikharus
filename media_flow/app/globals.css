@@ -10,44 +10,43 @@
       Reference these everywhere — never hardcode raw values.
    ------------------------------------------------------------ */
 :root {
-  /* --- Color Palette --- */
+  /* --- Color Palette (Apple-inspired — Light Mode) --- */
 
-  /* Brand / Primary — the teal-blue used on progress rings,
-     the active video scrubber, and icon accents               */
-  --color-primary:        #2D9CDB;
-  --color-primary-light:  #56CCF2;
-  --color-primary-dark:   #1A7BB8;
-  --color-primary-glow:   rgba(45, 156, 219, 0.15); /* used for the video canvas glow */
+  /* Primary Accent — Apple Blue */
+  --color-primary:        #0A84FF;
+  --color-primary-light:  #40A0FF;
+  --color-primary-dark:   #0060DF;
+  --color-primary-glow:   rgba(10, 132, 255, 0.08);
 
-  /* Neutrals — page background is almost white, not pure white */
-  --color-bg-page:        #F0F4F8; /* lightest outer shell           */
-  --color-bg-surface:     #FFFFFF; /* cards, modals, panels          */
-  --color-bg-surface-alt: #F7FAFC; /* subtle inner sections          */
-  --color-bg-overlay:     rgba(255, 255, 255, 0.85); /* frosted badge bg */
+  /* Neutrals — Warm off-white, not harsh white */
+  --color-bg-page:        #F5F5F7; /* Apple's signature light grey-white */
+  --color-bg-surface:     #FFFFFF; /* Clean white cards */
+  --color-bg-surface-alt: #F2F2F5; /* Slightly cooler for contrast areas */
+  --color-bg-overlay:     rgba(0, 0, 0, 0.32);
 
-  /* Text */
-  --color-text-primary:   #1A202C; /* headings, project names        */
-  --color-text-secondary: #4A5568; /* sub-labels, client names       */
-  --color-text-muted:     #A0AEC0; /* timestamps, hints              */
-  --color-text-on-primary:#FFFFFF; /* text on --color-primary fills  */
+  /* Text Colors */
+  --color-text-primary:   #1D1D1F; /* Apple's near-black */
+  --color-text-secondary: #6E6E73; /* Apple's secondary grey */
+  --color-text-muted:     #AEAEB2; /* Tertiary label */
+  --color-text-on-primary:#FFFFFF;
 
-  /* Borders */
-  --color-border-default: #E2E8F0; /* card outlines, dividers        */
-  --color-border-focus:   #2D9CDB; /* focused inputs                 */
+  /* Borders and Dividers — very subtle */
+  --color-border-default: #E5E5EA;
+  --color-border-focus:   #0A84FF;
 
-  /* Status badges (match the Unresolved / Needs Action / Delivered pills) */
-  --color-status-unresolved-bg:   #FFF3CD;
-  --color-status-unresolved-text: #92620A;
-  --color-status-needs-action-bg: #FEE2E2;
-  --color-status-needs-action-text: #9B1C1C;
-  --color-status-delivered-bg:    #D1FAE5;
-  --color-status-delivered-text:  #065F46;
-  --color-status-draft-bg:        #E0F2FE;
-  --color-status-draft-text:      #075985;
+  /* Status Colors */
+  --color-status-unresolved-bg:   #FFF4E6;
+  --color-status-unresolved-text: #B25E09;
+  --color-status-needs-action-bg: #FFEBEB;
+  --color-status-needs-action-text: #C53030;
+  --color-status-delivered-bg:    #EBFBEE;
+  --color-status-delivered-text:  #2F855A;
+  --color-status-draft-bg:        #E8F4FF;
+  --color-status-draft-text:      #0060DF;
 
   /* --- Typography --- */
-  --font-sans:   'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-  --font-mono:   'JetBrains Mono', 'Fira Code', monospace;
+  --font-sans:   -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', 'Segoe UI', system-ui, sans-serif;
+  --font-mono:   'SF Mono', 'JetBrains Mono', 'Fira Code', monospace;
 
   --text-xs:    0.75rem;   /* 12px  — timestamps, version labels    */
   --text-sm:    0.875rem;  /* 14px  — annotation cards, sub-text    */
@@ -84,16 +83,16 @@
   --radius-xl:   16px;  /* main content panels               */
   --radius-full: 9999px;/* circular progress rings, FAB btn  */
 
-  /* --- Shadows (very subtle — UI is light, not deep) --- */
-  --shadow-xs:  0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-sm:  0 1px 4px rgba(0, 0, 0, 0.08);
-  --shadow-md:  0 4px 12px rgba(0, 0, 0, 0.08);
-  --shadow-lg:  0 8px 24px rgba(0, 0, 0, 0.10);
+  /* --- Shadows (Apple minimal — barely there, no drama) --- */
+  --shadow-xs:  0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm:  0 1px 4px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0,0,0,0.03);
+  --shadow-md:  0 4px 16px rgba(0, 0, 0, 0.06);
+  --shadow-lg:  0 8px 24px rgba(0, 0, 0, 0.08);
 
   /* --- Layout --- */
-  --header-height:     60px;
-  --sidebar-width:     280px;   /* annotation sidebar on Review page   */
-  --content-max-width: 1200px;
+  --header-height:     72px;
+  --sidebar-width:     320px;
+  --content-max-width: 1240px;
 
   /* --- Transitions --- */
   --transition-fast:   150ms ease;
@@ -106,6 +105,42 @@
   --z-dropdown:100;
   --z-modal:   200;
   --z-toast:   300;
+}
+
+/* --- Dark Mode (Deep Blue — not pure black, Apple-inspired dark blue) --- */
+.dark {
+  --color-bg-page:        #0F1923; /* Deep navy — the page background */
+  --color-bg-surface:     #16212E; /* Slightly lighter navy for cards */
+  --color-bg-surface-alt: #1C2D3E; /* Elevated surface - panels, inputs */
+  --color-bg-overlay:     rgba(0, 0, 0, 0.6);
+
+  --color-text-primary:   #E8EAED; /* Soft white — easier on eyes */
+  --color-text-secondary: #8899AA; /* Muted blue-grey */
+  --color-text-muted:     #556677; /* Subtle tertiary */
+
+  --color-border-default: #1E3448; /* Blue-tinted subtle border */
+  --color-border-focus:   #0A84FF;
+
+  --color-primary:        #0A84FF; /* Keep the same blue — pops on dark */
+  --color-primary-light:  #40A0FF;
+  --color-primary-dark:   #0060DF;
+  --color-primary-glow:   rgba(10, 132, 255, 0.15);
+
+  /* Status Colors adjusted for dark blue background */
+  --color-status-unresolved-bg:   rgba(178, 94, 9, 0.18);
+  --color-status-unresolved-text: #FFAA44;
+  --color-status-needs-action-bg: rgba(197, 48, 48, 0.18);
+  --color-status-needs-action-text:#FF8080;
+  --color-status-delivered-bg:    rgba(47, 133, 90, 0.18);
+  --color-status-delivered-text:  #68D391;
+  --color-status-draft-bg:        rgba(10, 132, 255, 0.14);
+  --color-status-draft-text:      #60AFFF;
+
+  /* Shadows on dark blue — more blue-tinted */
+  --shadow-xs:  0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-sm:  0 1px 6px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255,255,255,0.03);
+  --shadow-md:  0 4px 16px rgba(0, 0, 0, 0.3);
+  --shadow-lg:  0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
 
@@ -122,6 +157,8 @@ html {
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
+  /* Smooth theme transitions across all elements */
+  transition: color-scheme var(--transition-base);
 }
 
 body {
@@ -133,6 +170,7 @@ body {
   background-color: var(--color-bg-page);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color var(--transition-base), color var(--transition-base);
 }
 
 img, video, svg {
@@ -203,19 +241,26 @@ ul, ol {
   flex-direction: column;
 }
 
-/* Top Navigation Bar — white strip with logo + greeting */
+/* Top Navigation Bar — Apple-style translucent bar */
 .app-header {
   position: sticky;
   top: 0;
   z-index: var(--z-raised);
   height: var(--header-height);
-  background: var(--color-bg-surface);
-  border-bottom: 1px solid var(--color-border-default);
+  background: rgba(255, 255, 255, 0.82);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 var(--space-6);
-  box-shadow: var(--shadow-xs);
+  padding: 0 var(--space-8);
+  transition: background var(--transition-base), border-color var(--transition-base);
+}
+
+.dark .app-header {
+  background: rgba(15, 25, 35, 0.85);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .app-header__logo {
@@ -262,7 +307,8 @@ ul, ol {
   border: 1px solid var(--color-border-default);
   border-radius: var(--radius-xl);
   padding: var(--space-6);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-xs);
+  transition: background var(--transition-base), border-color var(--transition-base);
 }
 
 /* Smaller inner card — used for each project tile */
@@ -271,16 +317,62 @@ ul, ol {
   border: 1px solid var(--color-border-default);
   border-radius: var(--radius-lg);
   padding: var(--space-4);
-  box-shadow: var(--shadow-xs);
+  box-shadow: none;
   transition: box-shadow var(--transition-fast),
-              transform   var(--transition-fast);
+              transform   var(--transition-fast),
+              border-color var(--transition-fast),
+              background var(--transition-base);
+  position: relative;
 }
 
 .card-tile:hover {
-  box-shadow: var(--shadow-md);
+  border-color: rgba(10, 132, 255, 0.3);
+  box-shadow: var(--shadow-sm);
   transform: translateY(-1px);
-  cursor: pointer;
 }
+
+/* Project card actions hover logic */
+.card-tile__actions {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  display: flex;
+  gap: var(--space-2);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  z-index: 20;
+}
+
+.card-tile:hover .card-tile__actions {
+  opacity: 1;
+}
+
+.card-tile__btn {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-full);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
+}
+
+.card-tile__btn:hover {
+  background: var(--color-bg-surface-alt);
+  color: var(--color-text-primary);
+  transform: scale(1.1);
+}
+
+.card-tile__btn--delete:hover {
+  color: #E53E3E;
+  border-color: #FEB2B2;
+}
+
 
 /* Section label inside a card — "ACTIVE PROJECTS", "ANNOTATIONS (5)" */
 .card-section-label {
@@ -318,10 +410,10 @@ ul, ol {
   object-fit: cover;
 }
 
-/* Circular progress ring sits top-right of thumbnail */
+/* Circular progress ring sits bottom-right of thumbnail */
 .project-card__progress {
   position: absolute;
-  top: var(--space-2);
+  bottom: var(--space-2);
   right: var(--space-2);
   width: 44px;
   height: 44px;
@@ -455,6 +547,9 @@ ul, ol {
   bottom: var(--space-8);
   right: var(--space-8);
   z-index: var(--z-raised);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .btn--fab:hover {
   background: var(--color-primary-dark);
@@ -554,12 +649,6 @@ ul, ol {
   background: var(--color-bg-surface-alt);
   border-radius: var(--radius-xl);
   overflow: hidden;
-
-  /* the subtle blue grid/glow background from the mockup */
-  background-image:
-    linear-gradient(rgba(45, 156, 219, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(45, 156, 219, 0.04) 1px, transparent 1px);
-  background-size: 40px 40px;
 }
 
 .video-wrapper__canvas {
@@ -720,7 +809,6 @@ ul, ol {
   align-items: center;
   justify-content: center;
   z-index: var(--z-modal);
-  backdrop-filter: blur(2px);
 }
 
 .modal {
