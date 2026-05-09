@@ -75,9 +75,15 @@ export default function EditorView({
   const [tokenSent, setTokenSent] = useState(false);
 
   const handleSendToken = () => {
-    // TODO: replace with Firestore token doc + shareable link
-    const token = `mf_${project.id}_${Math.random().toString(36).slice(2, 10)}`;
+    // Token embeds projectId + current progress so the client page can display it
+    // TODO: replace with Firestore token doc + shareable link in production
+    const clientSlug = project.client.toLowerCase().replace(/\s+/g, "");
+    const token = `${clientSlug}_${Math.random().toString(36).slice(2, 8)}`;
+    const mockUrl = `${window.location.origin}/review/${token}`;
     console.log("[MediaFlow] Client review token:", token);
+    console.log("[MediaFlow] Share URL:", mockUrl);
+    // In production: write token + progress snapshot to Firestore, then copy mockUrl to clipboard
+    navigator.clipboard?.writeText(mockUrl).catch(() => {});
     setTokenSent(true);
   };
 
@@ -423,40 +429,52 @@ export default function EditorView({
               )}
             </div>
 
-            {/* ── Action buttons ── */}
-            {isReadyToUpload && (
-              <div style={{
-                display:    "flex",
-                gap:        "var(--space-3)",
-                flexWrap:   "wrap",
-                alignItems: "center",
-              }}>
-                <button
-                  className={tokenSent ? "btn btn--ghost" : "btn btn--secondary"}
-                  onClick={handleSendToken}
-                  disabled={tokenSent}
-                  style={{
-                    opacity: tokenSent ? 0.65 : 1,
-                    cursor:  tokenSent ? "default" : "pointer",
-                  }}
-                >
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" strokeWidth="2"
-                    strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" />
-                    <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" />
-                  </svg>
-                  {tokenSent ? "Token sent ✓" : "Send client token"}
-                </button>
+            {/* ── Action buttons — always visible ── */}
+            <div style={{
+              display:    "flex",
+              gap:        "var(--space-3)",
+              flexWrap:   "wrap",
+              alignItems: "center",
+              marginTop:  "var(--space-4)",
+            }}>
+              <button
+                className={tokenSent ? "btn btn--ghost" : "btn btn--secondary"}
+                onClick={handleSendToken}
+                disabled={tokenSent}
+                style={{
+                  opacity: tokenSent ? 0.65 : 1,
+                  cursor:  tokenSent ? "default" : "pointer",
+                }}
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" strokeWidth="2"
+                  strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" />
+                  <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" />
+                </svg>
+                {tokenSent ? "Token sent ✓" : "Send client token"}
+              </button>
 
-                {project.mediaUrl && (
-                  <span className="badge badge--delivered"
-                    style={{ padding: "var(--space-2) var(--space-4)" }}>
-                    v1 uploaded ✓
-                  </span>
-                )}
-              </div>
-            )}
+              {project.mediaUrl ? (
+                <span className="badge badge--delivered"
+                  style={{ padding: "var(--space-2) var(--space-4)" }}>
+                  v1 uploaded ✓
+                </span>
+              ) : isReadyToUpload ? (
+                <span className="badge badge--draft"
+                  style={{ padding: "var(--space-2) var(--space-4)" }}>
+                  Ready to upload
+                </span>
+              ) : (
+                <span style={{
+                  fontSize:  "var(--text-xs)",
+                  color:     "var(--color-text-muted)",
+                  fontStyle: "italic",
+                }}>
+                  Client will see {project.progress}% progress
+                </span>
+              )}
+            </div>
           </div>
 
           {/* ── Right: panel ── */}
