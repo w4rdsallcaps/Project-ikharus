@@ -9,7 +9,7 @@ import {
   getDoc,
   getDocs,
   updateDoc,
-  serverTimestamp,
+  serverTimestamp
 } from "firebase/firestore";
 
 // Create a new project
@@ -20,7 +20,7 @@ export async function createProject({
   maxDurationMins,
   maxDurationSecs,
   maxRevisions,
-  editorId,
+  editorId
 }) {
     
   const projectRef = await addDoc(collection(db, "projects"), {
@@ -35,7 +35,7 @@ export async function createProject({
     status: "Awaiting Upload",
     videoUrl: null,
     editorId,
-    createdAt: serverTimestamp(),
+    createdAt: serverTimestamp()
   });
   return projectRef.id;
 }

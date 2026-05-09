@@ -12,7 +12,7 @@ export async function createUser({ id, name, email, role }) {
     name,
     email,
     role,
-    createdAt: serverTimestamp(),
+    createdAt: serverTimestamp()
   });
 }
 
