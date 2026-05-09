@@ -1,4 +1,7 @@
+// Finds the file called firebase.js and imports db (database)
 import { db } from "../firebase";
+
+// These are tools from firebase
 import { doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
 
 // Creates/updates a user in Firestore after signing up in Clerk
