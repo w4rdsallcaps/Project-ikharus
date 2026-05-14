@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^7.2.9",
+    "firebase": "^12.13.0",
     "next": "16.2.4",
     "next-cloudinary": "^6.17.5",
     "postcss": "^8.5.13",
